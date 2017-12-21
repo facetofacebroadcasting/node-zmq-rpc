@@ -1,0 +1,26 @@
+env:
+  browser: false
+  es6: true
+  node: true
+
+parserOptions:
+  sourceType: module
+
+extends:
+  - airbnb-base
+
+rules:
+  indent:
+    - error
+    - tab
+    - FunctionExpression:
+        body: 1 # warn
+        parameters: 2 # error
+      FunctionDeclaration:
+        body: 1
+        paremeters: 2
+      CallExpression:
+        arguments: 1
+      SwitchCase: 1
+  no-tabs: off
+  no-console: error
