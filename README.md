@@ -10,30 +10,32 @@ npm install --save zmq-rpc
 const { Client, Server } = require('zmq-rpc');
 
 const server = Server({
-	addStreamKey(req) {
-		const { key } = req.body;
-		req.reply(200);
+	getUser(req) {
+		const { name } = req.body;
+		// Do something to get user...
+		const user = getUser(name);
+		req.reply(200, user);
 	},
 });
-server.bind(`tcp://0.0.0.0:${port}`);
+server.bind(`tcp://0.0.0.0:3000`);
 
 
-const client = Client({ heartbeatPeriod: 2000, health: 3, persist: true });
-client.connect(`tcp://${address}:${port}`);
+const client = Client({ heartbeatPeriod: 500, health: 3 });
+client.connect(`tcp://127.0.0.1:3000`);
 
 client.on('close', () => {
-
+	console.log('Client closed');
 });
 
-client.send('addStreamKey', args);
-
-client.call('addStreamKey', args)
+client.call('getUser', { name: 'Dan' });
 	.then((resp) => {
-
+		console.log(resp.statusCode, resp.body);
 	})
 	.catch((err) => {
-
+		console.error(err.statusCode, err.body);
 	});
 
+
+// Later on...
 client.close();
 ```
