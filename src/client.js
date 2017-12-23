@@ -3,7 +3,6 @@ const DEFAULT_HEARTBEAT = 5000;
 const DEFAULT_HEALTH = 3;
 const DEFAULT_TIMEOUT = 5000;
 
-const noop = () => {};
 
 function randomAlphanumeric(len) {
 	const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -47,9 +46,10 @@ module.exports = ({
 	const transactions = {};
 
 	const events = {
-		close: noop,
+		close: [],
 	};
 
+	const emit = (name, ...args) => events[name].forEach(f => f(...args));
 	const socket = createSocket('dealer');
 
 
@@ -58,9 +58,9 @@ module.exports = ({
 	}
 
 
-	function on(eventName, callback) {
-		if (eventName in events && typeof callback === 'function') {
-			events[eventName] = callback;
+	function on(eventName, listener) {
+		if (eventName in events && typeof listener === 'function') {
+			events[eventName].push(listener);
 		}
 	}
 
@@ -114,7 +114,7 @@ module.exports = ({
 		}
 
 		clearInterval(pulse);
-		events.close();
+		emit('close');
 	}
 
 
