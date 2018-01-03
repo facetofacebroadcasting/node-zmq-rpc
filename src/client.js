@@ -44,6 +44,7 @@ module.exports = ({
 	let receivedHeartbeat = true;
 	let pulse;
 	const transactions = {};
+	const connections = [];
 
 	const events = {
 		close: [],
@@ -54,7 +55,10 @@ module.exports = ({
 
 
 	function connect(address) {
-		socket.connect(address);
+		if (!(address in connections)) {
+			connections.push(address);
+			socket.connect(address);
+		}
 	}
 
 
@@ -164,5 +168,6 @@ module.exports = ({
 		call,
 		close,
 		socket,
+		getConnections: () => connections,
 	};
 };
