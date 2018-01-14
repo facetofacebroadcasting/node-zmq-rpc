@@ -10,6 +10,6 @@ function createSocket(type) {
 }
 
 module.exports = {
-	Client: opts => Client({ opts, createSocket }),
+	Client: options => Client({ options, createSocket }),
 	Server: methods => Server({ methods, createSocket }),
 };
