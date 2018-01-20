@@ -1,13 +1,13 @@
-# zmq-rpc
+# node-zmq-rpc
 Rpc client built on persistent zmq connections.
 
 ## Getting Started
 ```shell
-npm install --save zmq-rpc
+npm install --save node-zmq-rpc
 ```
 
 ```javascript
-const { Client, Server } = require('zmq-rpc');
+const { Client, Server } = require('node-zmq-rpc');
 
 const server = Server({
 	getUser(req) {
