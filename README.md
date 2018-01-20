@@ -27,7 +27,7 @@ client.on('close', () => {
 	console.log('Client closed');
 });
 
-client.call('getUser', { name: 'Dan' });
+client.call('getUser', { name: 'Dan' })
 	.then((resp) => {
 		console.log(resp.statusCode, resp.body);
 	})
@@ -37,5 +37,5 @@ client.call('getUser', { name: 'Dan' });
 
 
 // Later on...
-client.close();
+setTimeout(() => client.close(), 1000);
 ```
